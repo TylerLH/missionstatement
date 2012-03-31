@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset=utf-8>
+    <title>Mission Statement</title>
+    <!--[if IE]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/simplex/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/assets/css/docs.css">
+    <style type="text/css">
+      body {
+        padding-top: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="/">Mission Statement</a>
+          <ul class="nav pull-right">
+            <li><a href="/login" title="Sign in">Sign in</a></li>
+            <li><a href="/sign_up" title="Sign up">Sign up</a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      {% block content %}
+        <header class="jumbotron subhead" id="overview">
+          <h1>What's your next big idea?</h1>
+          <p class="lead">Mission Statement lets you keep descriptions of your projects for different situations so you're not repeating yourself again and again.</p>
+          <a href="#" class="btn btn-primary btn-large">Create a Project Now</a>
+        </header>
+
+      {% endblock %}
+    </div>
+    <footer class="container-fluid">
+      <span class="authors">Created by Tyler Hughes and Ilya Bagrak.</span>
+    </footer>
+  </body>	
+</html>
