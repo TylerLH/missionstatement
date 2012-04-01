@@ -1,9 +1,57 @@
 {% extends "layout.html" %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		document.addEventListener('keydown', function (event) {
+		  var esc = event.which == 27,
+		      nl = event.which == 13,
+		      el = event.target,
+		      input = el.nodeName != 'INPUT' && el.nodeName != 'TEXTAREA',
+		      data = {};
+
+		  if (input) {
+		    if (esc) {
+		      // restore state
+		      document.execCommand('undo');
+		      el.blur();
+		    } else if (nl) {
+		      // save
+		      data[el.getAttribute('data-name')] = el.innerHTML;
+
+		      // we could send an ajax request to update the field
+		      /*
+		      $.ajax({
+		        url: window.location.toString(),
+		        data: data,
+		        type: 'post'
+		      });
+		      */
+		      log(JSON.stringify(data));
+
+		      el.blur();
+		      event.preventDefault();
+		    }
+		  }
+		}, true);
+
+		function log(s) {
+		  console.log('value changed to: ' + s);
+		}
+	</script>
+{% endblock %}
+
 {% block content %}
+	<h1 data-name="title" id="project_title" contenteditable="true">Your Project Title</h1>
 	<form method="POST" action=".">
 	    {{ form.csrf }}
 	    <div class="input">
 		    {{ form.title.label }} {{ form.title(size=20) }}
+		  </div>
+		  <div class="input">
+		  	{{ form.short_desc.label}} {{ form.short_desc(size=20)}}
+		  </div>
+		  <div class="input">
+		  	{{ form.twitter_desc.label}} {{ form.twitter_desc(size=140)}}
 		  </div>
 	    <button type="submit" class="btn btn-primary">Save Project</button>
 	</form>
