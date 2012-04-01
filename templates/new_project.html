@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+	<form method="POST" action=".">
+	    {{ form.csrf }}
+	    <div class="input">
+		    {{ form.title.label }} {{ form.title(size=20) }}
+		  </div>
+	    <button type="submit" class="btn btn-primary">Save Project</button>
+	</form>
+{% endblock %}

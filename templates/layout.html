@@ -7,12 +7,39 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
       </script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/simplex/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/cyborg/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/assets/css/docs.css">
     <style type="text/css">
-      body {
-        padding-top: 70px;
-      }
+          * {
+            margin: 0;
+          }
+          html, body {
+            height: 100%;
+          }
+          body {
+            padding-top: 120px;
+          }
+          .wrapper {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            margin: 0 auto -4em;
+          }
+          footer, .push {
+            height: 4em;
+          }
+
+          .idea-name {
+            font-size: 1.8em;
+            line-height: 1em;
+          }
+
+          .idea-name input {
+            font-size: 1em;
+            height: 1em;
+            line-height: 1.3em;
+          }
+
     </style>
   </head>
   <body>
@@ -26,15 +53,15 @@
           </ul>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid wrapper">
       {% block content %}
         <header class="jumbotron subhead" id="overview">
-          <h1>Got a big idea?</h1>
+          <h1>Got a big idea to share?</h1>
           <p class="lead">Stop repeating yourself when you want to explain it with Mission Statement.</p>
-          <p class="lead">Tell the world in 5 words, send a tweet-sized pitch, or keep a detailed description of your project.</p>
-          <a href="#" class="btn btn-primary btn-large">Create a Project Now</a>
+          <p class="lead">Tell the world in 5 words, send a tweet-sized pitch on Twitter, or keep a detailed description of your project.</p>
+          <a href="/new" class="btn btn-primary btn-large">Start Your Mission Statement</a>
         </header>
-
+        <div class="push"></div>
       {% endblock %}
     </div>
     <footer class="container-fluid">
