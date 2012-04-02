@@ -54,7 +54,7 @@ def hello():
         form.populate_obj(project)
         project.unique_url = create_url()
         project.save()
-        flash('Successfully updated Mission Statement!')
+        flash('Successfully created Mission Statement!')
         return redirect(url_for('show_project', unique_url=project.unique_url))
     form = ProjectForm(obj=project)
     return render_template('new_project.html', form=form)
