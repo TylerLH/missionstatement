@@ -4,11 +4,12 @@ app = Flask(__name__)
 
 from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
-from flaskext.wtf import Form, TextField, Required
+from flaskext.wtf import Form, TextField, TextAreaField, Required
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
 
 MONGODB_DATABASE = "missionstatement_dev"
+CSRF_ENABLED = True
 
 # creates a url string for the project
 def create_url(size=6, chars=string.ascii_uppercase + string.digits):
@@ -39,9 +40,9 @@ db = MongoKit(app)
 db.register([Project])
 
 class ProjectForm(Form):
-  title = TextField("Project Title")
-  short_desc = TextField("5 Words")
-  twitter_desc = TextField("Twitter Description")
+    title = TextField("Project Title")
+    short_desc = TextField("5 Words")
+    twitter_desc = TextAreaField("Twitter Description")
 
 @app.route("/")
 def hello():
@@ -54,11 +55,17 @@ def new_project():
     project.save()
     return redirect(url_for('show_project', unique_url=project['unique_url'].encode('UTF8')))
 
-@app.route('/<unique_url>')
+@app.route('/<unique_url>', methods=["GET", "POST"])
 def show_project(unique_url):
-  project = db.Project.find_one({'unique_url':unique_url})
-  form = ProjectForm()
-  return render_template('new_project.html', form=form)
+    form = ProjectForm(request.form)
+    project = db.Project.find_one({'unique_url':unique_url})
+    if request.method == "POST":
+        form.populate_obj(project)
+        project.save()
+        flash('Successfully updated Mission Statement!')
+        return redirect(url_for('show_project', unique_url=unique_url))
+    form = ProjectForm(obj=project)
+    return render_template('new_project.html', form=form)
 
 if __name__ == "__main__":
     app.run()

@@ -7,40 +7,10 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
       </script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/spacelab/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="http://bootswatch.com/assets/css/docs.css">
-    <style type="text/css">
-          * {
-            margin: 0;
-          }
-          html, body {
-            height: 100%;
-          }
-          body {
-            padding-top: 120px;
-          }
-          .wrapper {
-            min-height: 100%;
-            height: auto !important;
-            height: 100%;
-            margin: 0 auto -4em;
-          }
-          footer, .push {
-            height: 4em;
-          }
-
-          .idea-name {
-            font-size: 1.8em;
-            line-height: 1em;
-          }
-
-          .idea-name input {
-            font-size: 1em;
-            height: 1em;
-            line-height: 1.3em;
-          }
-
-    </style>
+    <link rel="stylesheet" type="text/less" href="{{ url_for('static', filename='style.less') }}">
   </head>
   <body>
     <nav class="navbar navbar-fixed-top">
@@ -50,11 +20,21 @@
       </div>
     </nav>
     <div class="container-fluid wrapper">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert fade in">
+                <a class="close" data-dismiss="alert">x</a>
+                {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
       {% block content %}
         <header class="jumbotron subhead" id="overview">
-          <h1>Got a big idea to share?</h1>
+          <h1>Ready to share your app with the world?</h1>
           <p class="lead">Stop repeating yourself when you want to explain it with Mission Statement.</p>
-          <p class="lead">Tell the world in 5 words, send a tweet-sized pitch on Twitter, or keep a detailed description of your project.</p>
+          <p class="lead">Tell the world in 5 words, send a tweet-sized pitch on Twitter, or keep a 500 word description of your project.</p>
           <a href="/new" class="btn btn-primary btn-large">Start Your Mission Statement</a>
         </header>
         <div class="push"></div>
@@ -65,6 +45,25 @@
     </footer>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='less-1.3.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.autoresize.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.limit.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/noisy/1.1/jquery.noisy.min.js"></script>
+    <script>
+        $(document).ready( function() {
+            $('body').noisy({
+                'intensity' : 1, 
+                'size' : 200, 
+                'opacity' : 0.08, 
+                'fallback' : '', 
+                'monochrome' : false
+            }).css('background-color', '#EDEBDE');
+
+            $('.twitter-desc').limit(140,'#twitter-chars-left')
+            $('#title-input').limit(50,'#title-chars-left')
+            $('.autoresize').autoResize();
+        });
+    </script>
     {% block scripts %}
 
     {% endblock %}
