@@ -23,6 +23,7 @@ class Project(Document):
     'unique_url':unicode,
     'short_desc':unicode,
     'twitter_desc':unicode,
+    'facebook_desc':unicode,
     'created_at':datetime.datetime
   }
 
@@ -40,20 +41,23 @@ db = MongoKit(app)
 db.register([Project])
 
 class ProjectForm(Form):
-    title = TextField("Project Title")
-    short_desc = TextField("5 Words")
+    title = TextField("What's your project called?")
+    short_desc = TextField("5 words that summarize your idea")
     twitter_desc = TextAreaField("Twitter Description")
+    facebook_desc = TextAreaField("Facebook Description")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def hello():
-    return redirect(url_for('new_project'))
-
-@app.route("/new/")
-def new_project():
+    form = ProjectForm(request.form)
     project = db.Project()
-    project.unique_url = create_url()
-    project.save()
-    return redirect(url_for('show_project', unique_url=project['unique_url'].encode('UTF8')))
+    if request.method == "POST":
+        form.populate_obj(project)
+        project.unique_url = create_url()
+        project.save()
+        flash('Successfully updated Mission Statement!')
+        return redirect(url_for('show_project', unique_url=project.unique_url))
+    form = ProjectForm(obj=project)
+    return render_template('new_project.html', form=form)
 
 @app.route('/<unique_url>', methods=["GET", "POST"])
 def show_project(unique_url):

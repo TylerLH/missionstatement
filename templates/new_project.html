@@ -46,17 +46,32 @@
 	<form method="POST">
 	    {{ form.csrf_token }}
 	    <div class="input">
-		    {{ form.title.label }} {{ form.title(size=50,id="title-input") }}
+		    {{ form.title.label }} {{ form.title(size=50,id="title-input",class="span5") }}
 		    <span class="help-inline"><span id="title-chars-left">50</span> Characters Left</span>
 		  </div>
 		  <div class="input">
-		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="5-words-input")}}
+		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="5-words-input",class="span5")}}
 		  	<span class="help-inline"><span id="words-left">5 Words Left</span>
 		  </div>
 		  <div class="input">
-		  	{{ form.twitter_desc.label}} {{ form.twitter_desc(size=140,class="autoresize span4 twitter-desc")}}
-		  	<span class="help-inline"><span id="twitter-chars-left">140</span> Characters Left</span>
+		  	<h2><a data-toggle="collapse" data-target="#twitter-description"><i class="icon icon-twitter-sign"></i> Twitter</a></h2>
+		  	<div id="twitter-description" class="collapse">
+		  		{{ form.twitter_desc(size=140,class="autoresize span5 twitter-desc")}}
+		  		<span class="help-inline"><span id="twitter-chars-left">140</span> Characters Left</span>
+		  	</div>
 		  </div>
-	    <button type="submit" class="btn btn-primary"><i class="icon-white icon-check"></i> Save Project</button>
+		  <div class="input">
+		  	<h2><a data-toggle="collapse" data-target="#facebook-description"><i class="icon icon-facebook-sign"></i> Facebook</a></h2>
+		  	<div id="facebook-description" class="collapse">
+		  		{{ form.facebook_desc(size=140,class="autoresize span5 facebook-desc")}}
+		  	</div>
+		  </div>
+	    <button type="submit" class="btn btn-primary btn-large"><i class="icon-white icon-check"></i> Update</button>
+	    &nbsp;<a href="#" class="btn btn-large"><i class="icon-bookmark"></i> Bookmark</a>
+	    <br /><br /><p>
+		    <strong>Send project link via email</strong>
+		    &nbsp;<input type="email" placeholder="me@example.com">
+		   	&nbsp;<button class="send-project btn btn-large btn-success"><i class="icon-white icon-envelope"></i> Send Email</button>
+	   	</p>
 	</form>
 {% endblock %}
