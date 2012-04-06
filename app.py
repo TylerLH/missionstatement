@@ -17,32 +17,40 @@ def create_url(size=6, chars=string.ascii_uppercase + string.digits):
 
 # Project Model
 class Project(Document):
-  __collection__ = 'projects'
-  structure = {
-    'title':unicode,
-    'unique_url':unicode,
-    'short_desc':unicode,
-    'twitter_desc':unicode,
-    'facebook_desc':unicode,
-    'created_at':datetime.datetime
-  }
+    __collection__ = 'projects'
+    structure = {
+                 'unique_url'  :unicode,
+                 
+                 'title'       :unicode,
+                 'slogan'      :unicode,
+                 'short_desc'  :unicode,
+                 'long_desc'   :unicode,
+                  
+                 'twitter_desc':unicode,
+                 'facebook_desc':unicode,
+                 
+                 'created_at':datetime.datetime
+                 }              
 
-  required_fields = ['title', 'created_at', 'unique_url']
-  default_values = {'created_at':datetime.datetime.utcnow, 'title':u''}
-  use_dot_notation = True
-  indexes = [ 
-    {
-      'fields':['unique_url'],
-      'unique':True
-    } 
-  ]
+    required_fields = ['title', 'slogan', 'created_at', 'unique_url']
+    default_values = {'created_at':datetime.datetime.utcnow, 'title':u''}
+    use_dot_notation = True
+    indexes = [ 
+               {
+                'fields':['unique_url'],
+                'unique':True
+                } 
+               ]
 
 db = MongoKit(app)
 db.register([Project])
 
 class ProjectForm(Form):
-    title = TextField("What's your project called?")
-    short_desc = TextField("5 words that summarize your idea")
+    title = TextField("Name")
+    slogan = TextField("Five-Word Slogan")
+    short_desc = TextAreaField("Shorter Pitch")
+    long_desc = TextAreaField("Longer Pitch")
+    
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
 
@@ -54,7 +62,7 @@ def hello():
         form.populate_obj(project)
         project.unique_url = create_url()
         project.save()
-        flash('Successfully created Mission Statement!')
+        flash('Statement saved!')
         return redirect(url_for('show_project', unique_url=project.unique_url))
     form = ProjectForm(obj=project)
     return render_template('new_project.html', form=form)
@@ -66,7 +74,7 @@ def show_project(unique_url):
     if request.method == "POST":
         form.populate_obj(project)
         project.save()
-        flash('Successfully updated Mission Statement!')
+        flash('Statement updated!')
         return redirect(url_for('show_project', unique_url=unique_url))
     form = ProjectForm(obj=project)
     return render_template('new_project.html', form=form)

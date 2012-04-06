@@ -43,17 +43,25 @@
 
 {% block content %}
 	<!-- <h1 data-name="title" id="project_title" contenteditable="true">Your Project Title</h1> -->
-	<form method="POST">
+	<form class="offset2" method="POST">
 	    {{ form.csrf_token }}
 	    <div class="input">
-		    {{ form.title.label }} {{ form.title(size=50,id="title-input",class="span5") }}
-		    <span class="help-inline"><span id="title-chars-left">50</span> Characters Left</span>
+		    {{ form.title.label }} {{ form.title(size=50,id="title-input",class="span7") }}
+		    <span class="help-inline"><span id="units-left">50</span> character<span class="plural">s</span> left</span>
 		  </div>
+          <div class="input">
+            {{ form.slogan.label}} {{ form.slogan(size=50,id="5-words-input",class="span7")}}
+            <span class="help-inline"><span id="units-left">5</span> word<span class="plural">s</span> left</span>
+          </div>
 		  <div class="input">
-		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="5-words-input",class="span5")}}
-		  	<span class="help-inline"><span id="words-left">5 Words Left</span>
+		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="5-words-input",class="span7")}}
+		  	<span class="help-inline"><span id="units-left">50</span> word<span class="plural">s</span> left</span>
 		  </div>
-		  <div class="input">
+          <div class="input">
+            {{ form.long_desc.label}} {{ form.long_desc(size=500,id="5-words-input",class="span7")}}
+            <span class="help-inline"><span id="units-left">500</span> word<span class="plural">s</span> left</span>
+          </div>
+		  <!-- <div class="input">
 		  	<h2><a data-toggle="collapse" data-target="#twitter-description"><i class="icon icon-twitter-sign"></i> Twitter</a></h2>
 		  	<div id="twitter-description" class="collapse">
 		  		{{ form.twitter_desc(size=140,class="autoresize span5 twitter-desc")}}
@@ -63,15 +71,16 @@
 		  <div class="input">
 		  	<h2><a data-toggle="collapse" data-target="#facebook-description"><i class="icon icon-facebook-sign"></i> Facebook</a></h2>
 		  	<div id="facebook-description" class="collapse">
-		  		{{ form.facebook_desc(size=140,class="autoresize span5 facebook-desc")}}
+		  		{{ form.facebook_desc(size=140,class="autoresize span7 facebook-desc")}}
 		  	</div>
-		  </div>
-	    <button type="submit" class="btn btn-primary btn-large"><i class="icon-white icon-check"></i> Update</button>
-	    &nbsp;<a href="#" class="btn btn-large"><i class="icon-bookmark"></i> Bookmark</a>
-	    <br /><br /><p>
-		    <strong>Send project link via email</strong>
-		    &nbsp;<input type="email" placeholder="me@example.com">
-		   	&nbsp;<button class="send-project btn btn-large btn-success"><i class="icon-white icon-envelope"></i> Send Email</button>
-	   	</p>
+		  </div> -->
+          <div class="btn-toolbar"> 
+            <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Update</button>
+            <button class="btn btn-small"><i class="icon-bookmark"></i> Bookmark</button>
+            <input class="sendto" type="email" placeholder="me@example.com">
+            <button class="send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Send Link</button>
+          </div>
 	</form>
+    
+    
 {% endblock %}
