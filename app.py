@@ -58,26 +58,37 @@ class ProjectForm(Form):
 def hello():
     form = ProjectForm(request.form)
     project = db.Project()
+    
     if request.method == "POST":
         form.populate_obj(project)
         project.unique_url = create_url()
         project.save()
-        flash('Statement saved!')
+        
+        if not 'pitches' in session:
+            session['pitches'] = []
+            
+        session['pitches'].append({'name' : project.title, 'url' : project.unique_url})
+        session.modified = True
+        
+        flash('Pitch saved!')
         return redirect(url_for('show_project', unique_url=project.unique_url))
+    
     form = ProjectForm(obj=project)
-    return render_template('new_project.html', form=form)
+    return render_template('new_project.html', form=form, update = False)
 
 @app.route('/<unique_url>', methods=["GET", "POST"])
 def show_project(unique_url):
     form = ProjectForm(request.form)
     project = db.Project.find_one({'unique_url':unique_url})
+    
     if request.method == "POST":
         form.populate_obj(project)
         project.save()
-        flash('Statement updated!')
+        flash('Pitch updated!')
         return redirect(url_for('show_project', unique_url=unique_url))
+    
     form = ProjectForm(obj=project)
-    return render_template('new_project.html', form=form)
+    return render_template('new_project.html', form=form, update = True)
 
 if __name__ == "__main__":
     app.run()

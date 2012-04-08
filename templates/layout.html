@@ -7,36 +7,60 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
       </script>
     <![endif]-->
-    <link rel="stylesheet" type="text/less" href="{{ url_for('static', filename='bootstrap/less/bootstrap.less') }}">
-    <link rel="stylesheet" type="text/css" href="http://bootswatch.com/assets/css/docs.css">
-    <link rel="stylesheet" type="text/less" href="{{ url_for('static', filename='style.less') }}">
-    <link href='http://fonts.googleapis.com/css?family=Oleo+Script:400,700' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='bootstrap/less/bootstrap.less') }}">
+    <link rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='bootstrap/less/style.less') }}">
+    <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="{{ url_for('static', filename='less-1.3.0.min.js') }}"></script>
   </head>
   <body>
+    {% if session.pitches %}
+    <div class="navbar navbar-fixed-top ">
+        <div class="navbar-inner navbar-under">
+            <div class="container">
+                <div class="offset2 span7 row">
+                    <ul class="nav nav-pills">
+                        <li><a href="/"><strong>New</strong></a></li>
+                            {% for pitch in session.pitches %}
+                                <li><a href="/{{pitch.url}}">{{pitch.name}}</a></li>
+                            {% endfor %}
+                        <li><a href="#"><i class="icon-white icon-signin"></i> <strong>Sign in</strong></a></li>
+                    </ul>
+                </div>
+            </div>
+       </div>
+    </div>
+    {% endif %}
     <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-            <div class="offset2 span7">
-                <a class="brand" href="#">Mission Statement</a>
-                <ul class="nav pull-right">
-                    <li><a href="#"><i class="icon-white icon-signin"></i> Sign in to manage multiple projects</a></li>
-                </ul>
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="offset2 span5">
+                    <a class="brand" href="#">Mission Statement</a>
+                    <!-- <ul class="nav pull-right">
+                        <li><a href="#"><i class="icon-white icon-signin"></i> Sign in</a></li>
+                    </ul> -->
+                </div>
+                <div class="offset2 span9">
+                    <p class="lead">Focus on the message. Fine-tune & organize your pitches.</p>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+    
+
     <div class="container wrapper">
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
-          
-            <div class="offset2 span7 fade in">
-                <div class = "alert alert-success">
-                    <a class="close" data-dismiss="alert">×</a>
-                    {{ message }}
-                </div>                
+            <div class="container">
+                <div class="offset2 span7">
+                    <div class="alert alert-success fade in">
+                        <a class="close alert-success" data-dismiss="alert">&times;</a>
+                        {{ message }}
+                    </div>                
+                </div>
             </div>
-           
+            <div class="span2"></div>
           {% endfor %}
         {% endif %}
       {% endwith %}
@@ -54,13 +78,13 @@
        <span class="authors">Created by Tyler Hughes and Ilya Bagrak.</span>
     </footer>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='less-1.3.0.min.js') }}"></script>
+    
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-alert.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-collapse.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-transition.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-button.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-tooltip.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.autoresize.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.limit.js') }}"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/noisy/1.1/jquery.noisy.min.js"></script>
     <script>
         $(document).ready( function() {
@@ -72,9 +96,12 @@
 //                 'monochrome' : false
 //             })
 
-            $('.twitter-desc').limit(140,'#twitter-chars-left')
-            $('#title-input').limit(50,'#title-chars-left')
+//            $('.twitter-desc').limit(140,'#twitter-chars-left')
+//            $('#title-input').limit(50,'#title-chars-left')
             $('.autoresize').autoResize();
+            $('#body').tooltip({selector : ":input"});
+            
+           
         });
     </script>
     {% block scripts %}

@@ -1,0 +1,105 @@
+@import "variables.less";
+@import "mixins.less";
+
+html, body {
+  height: 100%;
+}
+
+body {
+    padding-top: 170px;
+    background: #ededed;
+    background: -moz-linear-gradient(top, #ededed 0%, #f6f6f6 53%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(53%,#f6f6f6), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
+    background: -o-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
+    background: -ms-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
+    background: linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 );
+    background-attachment: fixed;
+}
+
+.brand {
+  font-family: 'Patua One', cursive;
+  font-size: 32px !important;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+}
+
+.help-inline {
+    vertical-align: top;
+    font-size: small;
+}
+
+.sendto {
+    width: 200px;
+    margin-right: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.footer, .alert {
+    font-size: small;
+}
+
+.btn-toolbar > .span7 {
+    margin-left: 0px;
+}
+
+.navbar-inner {
+    padding-top: 20px;
+    
+    .lead {
+        margin-bottom: 5px !important;
+    }
+}
+
+.nav-pills {
+    padding-top: 90px;
+}
+
+.amp {
+    font-family: Baskerville,Palatino,"Book Antiqua",serif;
+    font-style: italic;
+    font-weight: normal;
+    line-height: 19px;
+    color: @red;
+}
+
+
+
+.input > label {
+    font-family: 'Patua One', cursive;
+}
+
+.navbar-under {
+    background-image: none !important;
+    
+    #gradient > .vertical(@yellow, darken(@yellow, 20%);
+    
+    .nav > li > a {
+        font-size: 16px;
+        margin: 6px 5px 5px 0px;
+        padding: 5px 5px 6px 5px;
+        color: #000;
+        text-shadow: none !important;
+        background-color: transparent;
+    }
+    
+    .nav > li > a:hover {
+        color: #000;
+        text-decoration: none !important;
+    }
+    
+    .nav-pills {
+        margin-left: -5px;
+    }
+}
+
+

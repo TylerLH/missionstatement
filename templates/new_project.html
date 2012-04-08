@@ -42,23 +42,22 @@
 {% endblock %}
 
 {% block content %}
-	<!-- <h1 data-name="title" id="project_title" contenteditable="true">Your Project Title</h1> -->
 	<form class="offset2" method="POST">
 	    {{ form.csrf_token }}
-	    <div class="input">
-		    {{ form.title.label }} {{ form.title(size=50,id="title-input",class="span7") }}
+	      <div class="input">
+		    {{ form.title.label }} {{ form.title(size=50,id="title",class="span7") }}
 		    <span class="help-inline"><span id="units-left">50</span> character<span class="plural">s</span> left</span>
 		  </div>
           <div class="input">
-            {{ form.slogan.label}} {{ form.slogan(size=50,id="5-words-input",class="span7")}}
+            {{ form.slogan.label}} {{ form.slogan(size=50,id="slogan",class="span7")}}
             <span class="help-inline"><span id="units-left">5</span> word<span class="plural">s</span> left</span>
           </div>
 		  <div class="input">
-		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="5-words-input",class="span7")}}
+		  	{{ form.short_desc.label}} {{ form.short_desc(size=50,id="short_desc",class="span7")}}
 		  	<span class="help-inline"><span id="units-left">50</span> word<span class="plural">s</span> left</span>
 		  </div>
           <div class="input">
-            {{ form.long_desc.label}} {{ form.long_desc(size=500,id="5-words-input",class="span7")}}
+            {{ form.long_desc.label}} {{ form.long_desc(size=500,id="long_desc",class="span7")}}
             <span class="help-inline"><span id="units-left">500</span> word<span class="plural">s</span> left</span>
           </div>
 		  <!-- <div class="input">
@@ -74,13 +73,19 @@
 		  		{{ form.facebook_desc(size=140,class="autoresize span7 facebook-desc")}}
 		  	</div>
 		  </div> -->
-          <div class="btn-toolbar"> 
-            <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Update</button>
-            <button class="btn btn-small"><i class="icon-bookmark"></i> Bookmark</button>
-            <input class="sendto" type="email" placeholder="me@example.com">
-            <button class="send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Send Link</button>
+          <div class="btn-toolbar">
+            <div class="span7">
+               {% if update %}
+                   <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Update</button>
+                   <button class="btn btn-small"><i class="icon-bookmark"></i> Bookmark</button>
+    
+                   
+                   <button class="pull-right send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Send Link</button>
+                   <input class="pull-right sendto" type="email" placeholder="me@example.com">
+               {% else %}
+                   <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Save</button>
+               {% endif %}
+            </div>
           </div>
 	</form>
-    
-    
 {% endblock %}
