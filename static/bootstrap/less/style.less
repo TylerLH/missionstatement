@@ -1,26 +1,30 @@
 @import "variables.less";
 @import "mixins.less";
 
+// Vintage color palette
+@vintage-pink:  #e84d5b; 
+@vintage-paper:  #eae2cf;
+@vintage-sky: #b4ccb9;
+@vintage-blue: #26979F;
+@vintage-black: #3b3b3b;
+
+// http://www.colourlovers.com/palette/341704/Oppalal%C3%A0?widths=0
+@cl_tan: #7a5b3e;
+@cl_white: #fafafa;
+@cl_orange: #fa4b00;
+@cl_gray: #cdbdae;
+@cl_black: #1f1f1f;
+
 html, body {
   height: 100%;
 }
 
 body {
-    padding-top: 170px;
-    background: #ededed;
-    background: -moz-linear-gradient(top, #ededed 0%, #f6f6f6 53%, #ffffff 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(53%,#f6f6f6), color-stop(100%,#ffffff));
-    background: -webkit-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
-    background: -o-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
-    background: -ms-linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
-    background: linear-gradient(top, #ededed 0%,#f6f6f6 53%,#ffffff 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 );
+    #gradient > .vertical(darken(@vintage-paper, 10%), darken(@vintage-paper, 5%));
+    
+    padding-top: 160px;
     background-attachment: fixed;
-}
-
-.brand {
-  font-family: 'Patua One', cursive;
-  font-size: 32px !important;
+    color: @vintage-sky;
 }
 
 .wrapper {
@@ -28,6 +32,16 @@ body {
   height: auto !important;
   height: 100%;
   margin: 0 auto -4em;
+}
+
+.brand {
+  font-family: 'Patua One', cursive;
+  font-size: 32px !important;
+  color: @vintage-black !important;
+}
+
+.lead {
+    color: @vintage-black;
 }
 
 .help-inline {
@@ -60,44 +74,70 @@ body {
     }
 }
 
-.nav-pills {
-    padding-top: 90px;
-}
-
 .amp {
     font-family: Baskerville,Palatino,"Book Antiqua",serif;
     font-style: italic;
     font-weight: normal;
     line-height: 19px;
-    color: @red;
+    color: @vintage-pink;
 }
 
 .input > label {
     font-family: 'Patua One', cursive;
+    color: darken(@vintage-blue, 5%);
 }
 
-.navbar-under {
-    background-image: none !important;
-    
-    #gradient > .vertical(@yellow, darken(@yellow, 20%);
-    
-    .nav > li > a {
-        font-size: 16px;
-        margin: 6px 5px 5px 0px;
-        padding: 5px 5px 6px 5px;
-        color: #000;
-        text-shadow: none !important;
-        background-color: transparent;
+.navbar-fixed-top {
+    .navbar-inner {
+        #gradient > .vertical(@vintage-blue, lighten(@vintage-blue, 10%));
     }
+}
+
+input, textarea {
+
+}
+.navbar-fixed-top-plus {
+    top: 108px;
     
-    .nav > li > a:hover {
-        color: #000;
-        text-decoration: none !important;
+    .navbar-inner {
+        padding-top: 0px;
+        background-image: none !important;
+        
+        #gradient > .vertical(lighten(@vintage-blue, 10%), lighten(@vintage-blue, 0%));
+        
+        .nav > li > a {
+            font-size: 16px;
+            //margin: 6px 5px 5px 0px;
+            padding: 5px;
+            color: darken(@vintage-pink, 10%);
+            text-shadow: none !important;
+           
+        }
+       
+        li {
+            margin-bottom: 1px;
+            font-size: 14px;
+        }
     }
-    
-    .nav-pills {
-        margin-left: -5px;
-    }
+}
+
+.nav-pills {
+    margin-left: -5px !important;
+}
+
+#blurb {
+    height: 200px;
+    font-size: small; 
+}
+
+#tweet {
+    height: 100px;
+    font-size: medium; 
+    color: @cl_tan;
+}
+
+#title {
+    font-size: large;
 }
 
 

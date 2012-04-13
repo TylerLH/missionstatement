@@ -15,16 +15,18 @@
   </head>
   {% if session.pitches %}
       <body>
-        <div class="navbar navbar-fixed-top ">
-            <div class="navbar-inner navbar-under">
+        <div class="navbar navbar-fixed-top navbar-fixed-top-plus ">
+            <div class="navbar-inner">
                 <div class="container">
-                    <div class="offset2 span7 row">
+                    
+                    <div class="offset2 span6">
                         <ul class="nav nav-pills">
-                            <li><a href="/"><strong>New</strong></a></li>
-                                {% for pitch in session.pitches %}
-                                    <li><a href="/{{pitch.url}}">{{pitch.name}}</a></li>
-                                {% endfor %}
-                            <li><a href="#"><i class="icon-white icon-signin"></i> <strong>Sign in</strong></a></li>
+                             <li><a href="/"><strong>new!</strong></a></li>
+                            {% for pitch in session.pitches %}
+                                <li><a href="/{{pitch.url}}">({{pitch.name}})</a></li>
+                            {% endfor %}
+                            
+                            <li><a href="#"><i class="icon-white icon-signin"></i> <strong>sign in</strong></a></li>
                         </ul>
                     </div>
                 </div>
@@ -43,29 +45,23 @@
                     </ul> -->
                 </div>
                 <div class="offset2 span9">
-                    <p class="lead">Focus on the message. Fine-tune & organize your pitches.</p>
+                    <p class="lead">Fine-tune pitches. Track ideas. Focus on the message.</p>
                 </div>
             </div>
         </div>
     </div>
     
-
     <div class="container wrapper">
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
+        {% for category, message in get_flashed_messages(with_categories=true) %}
             <div class="container">
                 <div class="offset2 span7">
-                    <div class="alert alert-success fade in">
-                        <a class="close alert-success" data-dismiss="alert">&times;</a>
+                    <div class="alert alert-{{category}} fade in">
+                        <a class="close" data-dismiss="alert">&times;</a>
                         {{ message }}
                     </div>                
                 </div>
             </div>
-            <div class="span2"></div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+        {% endfor %}
       {% block content %}
         <header class="jumbotron subhead" id="overview">
           <h1>Ready to share your app with the world?</h1>
@@ -102,6 +98,7 @@
 //            $('#title-input').limit(50,'#title-chars-left')
             $('.autoresize').autoResize();
             $('#body').tooltip({selector : ":input"});
+            $('#title').focus();
             
            
         });
