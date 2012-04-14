@@ -4,10 +4,10 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 
-from flask_mongokit import MongoKit, Document
+from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
-from wtforms import Form, TextField, TextAreaField
-from wtforms.validators import Required, ValidationError
+from flask.wtf import Form, TextField, TextAreaField
+from flask.wtf.validators import Required, ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
@@ -81,10 +81,10 @@ def get_errors(form):
     return err
 
 class ProjectForm(Form):
-    title = TextField("Name", [required(), length(max = 50, words = False)])
+    title = TextField("Title", [required(), length(max = 50, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
-    tweet = TextAreaField("Tweet", [length(max = 12, words = False)])    
-    blurb = TextAreaField("Blurb", [length(max = 500)])
+    tweet = TextAreaField("One Tweetful", [length(max = 12, words = False)])    
+    blurb = TextAreaField("Longer Email Blurb", [length(max = 500)])
     
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
