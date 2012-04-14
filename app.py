@@ -1,16 +1,20 @@
-import logging
+import os
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 
-from flask_mongokit import MongoKit, Document
+from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
-from wtforms import Form, TextField, TextAreaField
-from wtforms.validators import Required, ValidationError
+from flaskext.wtf import Form, TextField, TextAreaField
+from wtforms import ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
+
+if os.environ.get('MONGOHQ_URL'):
+    app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
+    app.config['MONGODB_DATABASE'] = 'app4005374'
 
 MONGODB_DATABASE = "missionstatement_dev"
 CSRF_ENABLED = True
@@ -81,10 +85,10 @@ def get_errors(form):
     return err
 
 class ProjectForm(Form):
-    title = TextField("Name", [required(), length(max = 50, words = False)])
+    title = TextField("Title", [required(), length(max = 50, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
-    tweet = TextAreaField("Tweet", [length(max = 12, words = False)])    
-    blurb = TextAreaField("Blurb", [length(max = 500)])
+    tweet = TextAreaField("One Tweetful", [length(max = 12, words = False)])    
+    blurb = TextAreaField("Longer Email Blurb", [length(max = 500)])
     
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
@@ -132,4 +136,8 @@ def show_project(unique_url):
     return render_template('new_project.html', form=form, update = True)
 
 if __name__ == "__main__":
-    app.run()
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+    
+    

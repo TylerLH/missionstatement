@@ -96,6 +96,15 @@ body {
 input, textarea {
 
 }
+
+.btn-primary {
+  .buttonBackground(lighten(@vintage-pink, 5%), @vintage-pink);
+}
+
+.btn-success {
+   .buttonBackground(lighten(@vintage-black, 15%), lighten(@vintage-black, 10%));
+}
+
 .navbar-fixed-top-plus {
     top: 108px;
     
@@ -117,6 +126,12 @@ input, textarea {
         li {
             margin-bottom: 1px;
             font-size: 14px;
+        }
+        
+        .btn {
+            margin-top: 10px;
+            margin-bottom: 8px;
+            font-size: small;
         }
     }
 }

@@ -18,16 +18,12 @@
         <div class="navbar navbar-fixed-top navbar-fixed-top-plus ">
             <div class="navbar-inner">
                 <div class="container">
-                    
                     <div class="offset2 span6">
-                        <ul class="nav nav-pills">
-                             <li><a href="/"><strong>new!</strong></a></li>
-                            {% for pitch in session.pitches %}
-                                <li><a href="/{{pitch.url}}">({{pitch.name}})</a></li>
-                            {% endfor %}
-                            
-                            <li><a href="#"><i class="icon-white icon-signin"></i> <strong>sign in</strong></a></li>
-                        </ul>
+                        <a href="/#"><button class="btn btn-mini btn-success"><i class="icon-plus"></i> New</button></a>         
+                        {% for pitch in session.pitches %}
+                            <a href="/{{pitch.url}}"><button class="btn btn-mini btn-success">{{pitch.name}}</button></a>
+                        {% endfor %}
+                        <button class="btn btn-mini btn-success"><i class="icon-signin"></i> Sign in</button>   
                     </div>
                 </div>
            </div>
@@ -45,7 +41,7 @@
                     </ul> -->
                 </div>
                 <div class="offset2 span9">
-                    <p class="lead">Fine-tune pitches. Track ideas. Focus on the message.</p>
+                    <p class="lead">Fine-tune pitches. Organize ideas. Focus on the message.</p>
                 </div>
             </div>
         </div>
