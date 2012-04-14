@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
-from flask.wtf import Form, TextField, TextAreaField
-from flask.wtf.validators import Required, ValidationError
+from flaskext.wtf import Form, TextField, TextAreaField
+from wtforms import ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
