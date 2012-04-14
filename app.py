@@ -11,6 +11,7 @@ from wtforms import ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
+app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
 
 MONGODB_DATABASE = "missionstatement_dev"
 CSRF_ENABLED = True
@@ -135,3 +136,5 @@ if __name__ == "__main__":
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+    
+    
