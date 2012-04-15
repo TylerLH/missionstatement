@@ -11,7 +11,10 @@ from wtforms import ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
-app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
+
+if os.environ.get('MONGOHQ_URL'):
+    app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
+    app.config['MONGODB_DATABASE'] = 'app4005374'
 
 MONGODB_DATABASE = "missionstatement_dev"
 CSRF_ENABLED = True
