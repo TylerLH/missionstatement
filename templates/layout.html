@@ -21,9 +21,9 @@
                     <div class="offset2 span6">
                         <a href="/#"><button class="btn btn-mini btn-success"><i class="icon-plus"></i> New</button></a>         
                         {% for pitch in session.pitches %}
-                            <a href="/{{pitch.url}}"><button class="btn btn-mini btn-success">{{pitch.name}}</button></a>
+                            <a href="/{{pitch.url}}"><button class="btn btn-mini btn-success">{{pitch.name | truncate(20, True)}}</button></a>
                         {% endfor %}
-                        <button class="btn btn-mini btn-success"><i class="icon-signin"></i> Sign in</button>   
+<!--                         <button class="btn btn-mini btn-success"><i class="icon-signin"></i> Sign in</button>    -->
                     </div>
                 </div>
            </div>
@@ -36,18 +36,15 @@
             <div class="container">
                 <div class="offset2 span5">
                     <a class="brand" href="#">Mission Statement</a>
-                    <!-- <ul class="nav pull-right">
-                        <li><a href="#"><i class="icon-white icon-signin"></i> Sign in</a></li>
-                    </ul> -->
                 </div>
                 <div class="offset2 span9">
-                    <p class="lead">Fine-tune pitches. Organize ideas. Focus on the message.</p>
+                    <p class="lead">Fine-tune pitches. Capture ideas. Focus on the message.</p>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="container wrapper">
+    <div class="container">
         {% for category, message in get_flashed_messages(with_categories=true) %}
             <div class="container">
                 <div class="offset2 span7">
@@ -58,19 +55,15 @@
                 </div>
             </div>
         {% endfor %}
-      {% block content %}
-        <header class="jumbotron subhead" id="overview">
-          <h1>Ready to share your app with the world?</h1>
-          <p class="lead">Stop repeating yourself when you want to explain it with Mission Statement.</p>
-          <p class="lead">Tell the world in 5 words, send a tweet-sized pitch on Twitter, or keep a 500 word description of your project.</p>
-          <a href="/new" class="btn btn-primary btn-large">Start Your Mission Statement</a>
-        </header>
-        <div class="push"></div>
-      {% endblock %}
+        {% block content %} {% endblock %}
+        <footer class="offset2 span7">
+        
+            <span class="authors">Created by <a href="https://github.com/TylerLH">Tyler Hughes</a> and <a href="http://codercofounder.wordpress.com">Ilya Bagrak.</a></span>
+      
+       </footer>
     </div>
-    <footer class="offset5 span7 footer">
-       <span class="authors">Created by Tyler Hughes and Ilya Bagrak.</span>
-    </footer>
+
+    
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-alert.js') }}"></script>
@@ -79,26 +72,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-button.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap-tooltip.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery.autoresize.js') }}"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/noisy/1.1/jquery.noisy.min.js"></script>
-    <script>
-        $(document).ready( function() {
-//             $('body').noisy({
-//                 'intensity' : 1, 
-//                 'size' : 200, 
-//                 'opacity' : 0.08, 
-//                 'fallback' : '', 
-//                 'monochrome' : false
-//             })
-
-//            $('.twitter-desc').limit(140,'#twitter-chars-left')
-//            $('#title-input').limit(50,'#title-chars-left')
-            $('.autoresize').autoResize();
-            $('#body').tooltip({selector : ":input"});
-            $('#title').focus();
-            
-           
-        });
-    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascripts/missionstatement.js') }}"></script>
     {% block scripts %}
 
     {% endblock %}

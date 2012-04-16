@@ -16,7 +16,6 @@ if os.environ.get('MONGOHQ_URL'):
     app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
     app.config['MONGODB_DATABASE'] = 'app4005374'
 
-MONGODB_DATABASE = "missionstatement_dev"
 CSRF_ENABLED = True
 
 # creates a url string for the project
@@ -88,7 +87,7 @@ class ProjectForm(Form):
     title = TextField("Title", [required(), length(max = 50, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
     tweet = TextAreaField("One Tweetful", [length(max = 12, words = False)])    
-    blurb = TextAreaField("Longer Email Blurb", [length(max = 500)])
+    blurb = TextAreaField("Email Blurb / Elevator Pitch", [length(max = 500)])
     
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
@@ -127,6 +126,12 @@ def show_project(unique_url):
         if form.validate():
             form.populate_obj(project)
             project.save()
+            
+            # update cookie if name changed
+            for pitch in session['pitches']:
+                if pitch['url'] == unique_url:
+                    pitch['name'] = project.title
+                    
             flash('Updated!', category = 'success')
             return redirect(url_for('show_project', unique_url=unique_url))
         else: 

@@ -45,20 +45,20 @@
 	<form class="offset2" method="POST">
 	    {{ form.csrf_token }}
 	      <div class="input">
-		    {{ form.title.label }} {{ form.title(size=50,id="title",class="span7") }}
-		    <span class="help-inline"><span id="units-left">50</span> character<span class="plural">s</span> left</span>
+		    {{ form.title.label }} {{ form.title(size=50,id="title",class="span7 char_limited") }}
+		    <span class="help-inline"><span class="units-left">50</span> character<span class="plural">s</span> <span class="too-much">left</span></span>
 		  </div>
           <div class="input">
-            {{ form.tagline.label}} {{ form.tagline(size=50,id="tagline",class="span7")}}
-            <span class="help-inline"><span id="units-left">10</span> word<span class="plural">s</span> left</span>
+            {{ form.tagline.label}} {{ form.tagline(size=10,id="tagline",class="span7 word_limited")}}
+            <span class="help-inline"><span class="units-left">10</span> word<span class="plural">s</span> <span class="too-much">left</span></span>
           </div>
 		  <div class="input">
-		  	{{ form.tweet.label}} {{ form.tweet(size=50,id="tweet",class="span7")}}
-		  	<span class="help-inline"><span id="units-left">140</span> character<span class="plural">s</span> left</span>
+		  	{{ form.tweet.label}} {{ form.tweet(size=140,id="tweet",class="span7 autoresize char_limited")}}
+		  	<span class="help-inline"><span class="units-left">140</span> character<span class="plural">s</span> <span class="too-much">left</span></span>
 		  </div>
           <div class="input">
-            {{ form.blurb.label}} {{ form.blurb(size=500,id="blurb",class="span7")}}
-            <span class="help-inline"><span id="units-left">100</span> word<span class="plural">s</span> left</span>
+            {{ form.blurb.label}} {{ form.blurb(size=100,id="blurb",class="span7 autoresize word_limited")}}
+            <span class="help-inline"><span class="units-left">100</span> word<span class="plural">s</span> <span class="too-much">left</span></span>
           </div>
 		  <!-- <div class="input">
 		  	<h2><a data-toggle="collapse" data-target="#twitter-description"><i class="icon icon-twitter-sign"></i> Twitter</a></h2>
@@ -73,15 +73,15 @@
 		  		{{ form.facebook_desc(size=140,class="autoresize span7 facebook-desc")}}
 		  	</div>
 		  </div> -->
-          <div class="btn-toolbar">
+          <div class="container btn-toolbar">
             <div class="span7">
                {% if update %}
                    <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Update</button>
-                   <button class="btn btn-small btn-success"><i class="icon-bookmark"></i> Bookmark</button>
+<!--                    <button class="btn btn-small btn-success"><i class="icon-bookmark"></i> Bookmark</button> -->
     
                    
-                   <button class="pull-right send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Send Link</button>
-                   <input class="pull-right sendto" type="email" placeholder="me@example.com">
+<!--                    <button class="pull-right send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Send Link</button> -->
+<!--                    <input class="pull-right sendto" type="email" placeholder="me@example.com"> -->
                {% else %}
                    <button type="submit" class="btn btn-primary btn-small"><i class="icon-white icon-check"></i> Save</button>
                {% endif %}
