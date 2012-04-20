@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
@@ -11,8 +12,10 @@ from wtforms import ValidationError
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
+app.permanent_session_lifetime = timedelta(days = 365)
 
 if os.environ.get('MONGOHQ_URL'):
+    app.debug = False
     app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
     app.config['MONGODB_DATABASE'] = 'app4005374'
 
@@ -105,11 +108,13 @@ def hello():
         
             if not 'pitches' in session:
                 session['pitches'] = []
+                session.permanent = True
             
             session['pitches'].append({'name' : project.title, 'url' : project.unique_url})
             session.modified = True
         
             flash('Saved!', category = 'success')
+            app.logger.debug('Updating...')
             return redirect(url_for('show_project', unique_url=project.unique_url))
         else:
             flash(get_errors(form), category = 'error')
@@ -127,12 +132,20 @@ def show_project(unique_url):
             form.populate_obj(project)
             project.save()
             
+            # session expired (?)
+            if not 'pitches' in session:
+                session['pitches'] = [{'name' : project.title, 'url' : project.unique_url}]
+                session.permanent = True
+                
             # update cookie if name changed
             for pitch in session['pitches']:
                 if pitch['url'] == unique_url:
                     pitch['name'] = project.title
+            
+            session.modified = True
                     
             flash('Updated!', category = 'success')
+            app.logger.debug('Updating...')
             return redirect(url_for('show_project', unique_url=unique_url))
         else: 
             flash(get_errors(form), category = 'error')
