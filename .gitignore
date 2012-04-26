@@ -9,3 +9,4 @@ dist
 _mailinglist
 .tox
 venv
+secrets.py

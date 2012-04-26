@@ -9,6 +9,7 @@ from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
 from flaskext.wtf import Form, TextField, TextAreaField
 from wtforms import ValidationError
+from flaskext.mail import Mail, Message
 
 app.debug = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
@@ -20,6 +21,17 @@ if os.environ.get('MONGOHQ_URL'):
     app.config['MONGODB_DATABASE'] = 'app4005374'
 
 CSRF_ENABLED = True
+
+app.config.update(
+                  #EMAIL SETTINGS
+                  MAIL_SERVER = 'smtp.sendgrid.net',
+                  MAIL_PORT = 587,
+                  MAIL_USE_SSL = True,
+                  MAIL_DEBUG = app.debug,
+                  MAIL_USERNAME = os.environ.get('SENDGRID_USERNAME'),
+                  MAIL_PASSWORD = os.environ.get('SENDGRID_PASSWORD'),
+                  )
+mail = Mail(app)
 
 # creates a url string for the project
 def create_url(size=6, chars=string.ascii_uppercase + string.digits):
@@ -115,6 +127,14 @@ def hello():
         
             flash('Saved!', category = 'success')
             app.logger.debug('Updating...')
+            
+            
+            if mail:
+                msg = Message("Hello",
+                              sender="ilya.bagrak@gmail.com",
+                              recipients=["ilya.bagrak+me@gmail.com"])
+                msg.body = "Hello, world!"
+                mail.send(msg)
             return redirect(url_for('show_project', unique_url=project.unique_url))
         else:
             flash(get_errors(form), category = 'error')
