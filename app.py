@@ -26,10 +26,11 @@ app.config.update(
                   #EMAIL SETTINGS
                   MAIL_SERVER = 'smtp.sendgrid.net',
                   MAIL_PORT = 587,
-                  MAIL_USE_SSL = True,
+                  MAIL_USE_SSL = False,
                   MAIL_DEBUG = app.debug,
                   MAIL_USERNAME = os.environ.get('SENDGRID_USERNAME'),
                   MAIL_PASSWORD = os.environ.get('SENDGRID_PASSWORD'),
+                  MAIL_FAIL_SILENTLY = False,
                   )
 mail = Mail(app)
 
