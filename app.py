@@ -205,7 +205,7 @@ def show_project(unique_url):
                               Ilya and Tyler
                           
                               PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.
-                              """ % (form.email_addr, form.title, "http://missionstatement.herokuapp.com/" + unique_url)
+                              """ % (form.email_addr.data, form.title.data, "http://missionstatement.herokuapp.com/" + unique_url)
                 mail.send(msg)
                 
                 app.logger.debug('Emailing...')
