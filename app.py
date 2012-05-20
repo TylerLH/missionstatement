@@ -7,21 +7,28 @@ app = Flask(__name__)
 
 from flask.ext.mongokit import MongoKit, Document
 import datetime, string, random
-from flaskext.wtf import Form, TextField, TextAreaField
+from flaskext.wtf import Form, TextField, TextAreaField, SubmitInput, Label
 from wtforms import ValidationError
+from wtforms.validators import Email
 from flaskext.mail import Mail, Message
 
-app.debug = True
+app.debug= True
+app.config['TESTING'] = True
 app.config['SECRET_KEY'] = "5A9580DAAA1C8736783C3C0968B89FEC5337AC49286E6FA4D2AFD3400FB90235"
 app.permanent_session_lifetime = timedelta(days = 365)
 
+# mongo configuration
 if os.environ.get('MONGOHQ_URL'):
     app.debug = False
-    app.config['MONGODB_HOST'] = os.environ.get('MONGOHQ_URL')
-    app.config['MONGODB_DATABASE'] = 'app4005374'
+    app.config.update(MONGODB_HOST = os.environ.get('MONGOHQ_URL'),
+                      MONGODB_DATABASE = 'app4005374')
 
 CSRF_ENABLED = True
 
+# smtp configuration
+if os.environ.get('SENDGRID_USERNAME'):
+    app.config['TESTING'] = False
+    
 app.config.update(
                   #EMAIL SETTINGS
                   MAIL_SERVER = 'smtp.sendgrid.net',
@@ -32,7 +39,9 @@ app.config.update(
                   MAIL_PASSWORD = os.environ.get('SENDGRID_PASSWORD'),
                   MAIL_FAIL_SILENTLY = False,
                   )
+
 mail = Mail(app)
+
 
 # creates a url string for the project
 def create_url(size=6, chars=string.ascii_uppercase + string.digits):
@@ -92,6 +101,13 @@ def required():
 
     return _required
 
+def email_or_empty():
+    def _email_or_empty(form, field):
+        if len(field.data) > 0:
+            Email()(form, field)
+    
+    return _email_or_empty
+
 def get_errors(form):
     err = ''
     for v in form.errors.values():
@@ -102,11 +118,13 @@ def get_errors(form):
 class ProjectForm(Form):
     title = TextField("Title", [required(), length(max = 50, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
-    tweet = TextAreaField("One Tweetful", [length(max = 12, words = False)])    
-    blurb = TextAreaField("Email Blurb / Elevator Pitch", [length(max = 500)])
+    tweet = TextAreaField("One Tweetful", [length(max = 140, words = False)])    
+    blurb = TextAreaField("Email Blurb / Elevator Pitch", [length(max = 100)])
     
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
+    
+    email_addr = TextField("", [email_or_empty()])
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
@@ -128,14 +146,7 @@ def hello():
         
             flash('Saved!', category = 'success')
             app.logger.debug('Updating...')
-            
-            
-            if mail:
-                msg = Message("Hello",
-                              sender="ilya.bagrak@gmail.com",
-                              recipients=["ilya.bagrak+me@gmail.com"])
-                msg.body = "Hello, world!"
-                mail.send(msg)
+        
             return redirect(url_for('show_project', unique_url=project.unique_url))
         else:
             flash(get_errors(form), category = 'error')
@@ -148,29 +159,63 @@ def show_project(unique_url):
     form = ProjectForm(request.form)
     project = db.Project.find_one({'unique_url':unique_url})
     
+    # POST
     if request.method == "POST":
-        if form.validate():
-            form.populate_obj(project)
-            project.save()
-            
-            # session expired (?)
-            if not 'pitches' in session:
-                session['pitches'] = [{'name' : project.title, 'url' : project.unique_url}]
-                session.permanent = True
+        if "_update" in request.form.values():
+            if form.validate():
+                form.populate_obj(project)
+                project.save()
                 
-            # update cookie if name changed
-            for pitch in session['pitches']:
-                if pitch['url'] == unique_url:
-                    pitch['name'] = project.title
-            
-            session.modified = True
+                # session expired (?)
+                if not 'pitches' in session:
+                    session['pitches'] = [{'name' : project.title, 'url' : project.unique_url}]
+                    session.permanent = True
+                        
+                # update cookie if name changed
+                for pitch in session['pitches']:
+                    if pitch['url'] == unique_url:
+                        pitch['name'] = project.title
                     
-            flash('Updated!', category = 'success')
-            app.logger.debug('Updating...')
-            return redirect(url_for('show_project', unique_url=unique_url))
-        else: 
-            flash(get_errors(form), category = 'error')
-            
+                session.modified = True
+                            
+                flash('Updated!', category = 'success')
+                app.logger.debug('Updating...')
+                return redirect(url_for('show_project', unique_url=unique_url))         
+            else: 
+                flash(get_errors(form), category = 'error')
+        
+        elif "_email" in request.form.values():
+            if not form.email_addr.data: 
+                flash('Email missing', category = 'error')
+                
+            elif mail: 
+                msg = Message("",
+                              sender="ilya.bagrak@gmail.com",
+                              recipients=[form.email_addr.data])
+                msg.body = """Hello, %s! 
+                    
+                              Here is the link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
+                          
+                              %s
+                          
+                              Flex that idea muscle and keep them coming!
+                          
+                              Yours Truly, 
+                          
+                              Ilya and Tyler
+                          
+                              PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.
+                              """ % (form.email_addr, form.title, "http://missionstatement.herokuapp.com/" + unique_url)
+                mail.send(msg)
+                
+                app.logger.debug('Emailing...')
+                flash('Link sent.', category = 'success')
+            else:
+                flash(get_errors(form), category = 'error')
+                    
+        return redirect(url_for('show_project', unique_url=unique_url))
+    
+    # GET
     form = ProjectForm(obj=project)
     return render_template('new_project.html', form=form, update = True)
 

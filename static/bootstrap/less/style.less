@@ -15,6 +15,34 @@
 @cl_gray: #cdbdae;
 @cl_black: #1f1f1f;
 
+// Mixin for form field states
+.myformFieldState(@textColor: #555, @borderColor: #ccc, @backgroundColor: #f5f5f5) {
+  // Set the text color
+  > label,
+  .help-block,
+  .help-inline {
+    color: lighten(@textColor, 10%);
+  }
+  // Style inputs accordingly
+  input,
+  select,
+  textarea {
+    color: @textColor;
+    border-color: @backgroundColor;
+    &:focus {
+      border-color: darken(@backgroundColor, 10%);
+      .box-shadow(0 0 8px lighten(@borderColor, 20%));
+    }
+  }
+  // Give a small background color for input-prepend/-append
+  .input-prepend .add-on,
+  .input-append .add-on {
+    color: @textColor;
+    background-color: @backgroundColor;
+    border-color: @textColor;
+  }
+}
+
 html, body {min-height: 100%;}
 
 body {
@@ -23,18 +51,30 @@ body {
     #gradient > .vertical(darken(@vintage-paper, 10%), darken(@vintage-paper, 5%));
 }
 
-.alerts {
-    font-size: small;
+.alert-success {
+    font-size: medium;
+    color: @vintage-black;
+    background-color: @vintage-sky;
+    border-color: darken(@vintage-sky, 10%);
+}
+
+.alert-error {
+    font-size: medium;
+    color: @vintage-pink;
+    background-color: @vintage-sky;
+    border-color: darken(@vintage-sky, 10%);    
 }
 
 footer {
     padding: 10px 0 10px;
-    border-top: 1px solid #E5E5E5;
+    border-top: 1px dashed @vintage-sky;
     font-size: small;
+    text-align: center;
 }
 .help-inline {
     vertical-align: top;
     font-size: small;
+    font-weight: bold;
 }
 
 .sendto {
@@ -50,11 +90,44 @@ footer {
     margin-left: 0px;
 }
 
-.input > label {
-    font-family: 'Patua One', cursive;
-    color: darken(@vintage-blue, 5%);
+.input {
+    .input-overflown {
+        border-color: lighten(@vintage-pink, 10%);
+        &:focus {
+         border-color: lighten(@vintage-pink, 10%);
+        .box-shadow(0 0 8px @vintage-pink);
+        }
+    }
+    
+    
+    
+    label {
+        font-family: 'Patua One', cursive;
+        color: @vintage-blue;
+    }
+    
+
+    
+    .help-overflown {
+        color: @vintage-pink;
+    }
+    
+    
 }
 
+a {
+    color: @vintage-blue;
+}
+a:hover {
+    color: darken(@vintage-blue, 10%);
+}
+
+.myformFieldState(@vintage-black, @vintage-blue, @vintage-sky);
+
+input, textarea {
+    color: @vintage-black;
+}
+    
 .btn-primary {
   .buttonBackground(lighten(@vintage-pink, 5%), @vintage-pink);
 }
@@ -108,10 +181,6 @@ footer {
             font-size: small;
         }
     }
-}
-
-input, textarea {
-    color: @cl_tan;
 }
 
 #blurb {
