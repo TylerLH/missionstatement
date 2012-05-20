@@ -119,7 +119,7 @@ class ProjectForm(Form):
     title = TextField("Title", [required(), length(max = 50, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
     tweet = TextAreaField("One Tweetful", [length(max = 140, words = False)])    
-    blurb = TextAreaField("Email Blurb / Elevator Pitch", [length(max = 100)])
+    blurb = TextAreaField("Email Blurb + Elevator Pitch", [length(max = 100)])
     
     twitter_desc = TextAreaField("Twitter Description")
     facebook_desc = TextAreaField("Facebook Description")
