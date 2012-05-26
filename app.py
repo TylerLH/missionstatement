@@ -49,13 +49,14 @@ mail = Mail(app)
 
 # creates a url string for the project
 def create_url(size=6, chars=string.ascii_uppercase + string.digits):
-  return u''.join(random.choice(chars) for x in range(size))
+    return u''.join(random.choice(chars) for x in range(size))
 
 # Project Model
 class Project(Document):
     __collection__ = 'projects'
     structure = {
                  'unique_url'  :unicode,
+                 'ro_url'      :unicode,
                  
                  'title'       :unicode,
                  'tagline'      :unicode,
@@ -138,6 +139,7 @@ def home():
             
     project = db.Project()
     project.unique_url = create_url()
+    project.ro_url = create_url()
     project.save()
     
     session['pitches'].append({'name' : project.title, 'url' : project.unique_url})
@@ -149,14 +151,15 @@ def home():
 def favicon():
     return abort(404) 
               
-
 @app.route('/<unique_url>', methods=["GET", "POST"])
 def show_project(unique_url):
-    form = ProjectForm(request.form)
     project = db.Project.find_one({'unique_url' : unique_url})
+    if not project: 
+        return render_template('404.html', update = True)
     
     # POST
     if request.method == "POST" and "_email" in request.form.values():
+        form = ProjectForm(request.form)
         if not form.email_addr.data: 
             flash('Email missing', category='error')
                 
@@ -166,18 +169,17 @@ def show_project(unique_url):
                           recipients=[form.email_addr.data])
             msg.body = """Hello, %s! 
                     
-                          Here is the permanent link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
+Here is the permanent link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
                           
-                          %s
+%s
                           
-                          Flex that idea muscle and keep them coming!
+Flex that idea muscle and keep them coming!
                           
-                          Yours Truly, 
+Yours Truly, 
                           
-                          Ilya and Tyler
+Ilya and Tyler
                           
-                          PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.
-                        """ % (form.email_addr.data, form.title.data, "http://missionstatement.herokuapp.com/" + unique_url)
+PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.""" % (form.email_addr.data, form.title.data, "http://missionstatement.herokuapp.com/" + unique_url)
             mail.send(msg)
                 
             app.logger.debug('Emailing...')
@@ -190,7 +192,7 @@ def show_project(unique_url):
     # GET
     form = ProjectForm(obj=project)
     app.logger.debug(project)
-    return render_template('new_project.html', form=form, unique_url = project.unique_url, update = True)
+    return render_template('new_project.html', form=form, ro_url = project.ro_url, unique_url = project.unique_url, update = True)
 
 @app.route('/api/v1/pitch/<unique_url>', methods=["POST"])
 def update_project(unique_url):

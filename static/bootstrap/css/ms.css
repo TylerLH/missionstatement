@@ -4175,6 +4175,14 @@ footer {
 .units-left {
   font-weight: bold;
 }
+.action {
+  font-family: 'Patua One', cursive;
+}
+.btn-group::before,
+.btn-group::after {
+  display: block;
+  content: none !important;
+}
 #form_status {
   position: absolute;
   left: -260px;
@@ -4191,6 +4199,7 @@ footer {
 .sendto {
   width: 200px;
   margin-right: 5px;
+  font-size: medium;
 }
 .hidden {
   display: none;
@@ -4200,6 +4209,17 @@ footer {
 }
 .container-fluid > .span6 {
   margin-left: 10px;
+}
+.share-well {
+  padding-left: 80px;
+  padding-right: 77px;
+  padding-bottom: 15px;
+  margin-left: 180px;
+  background-color: #dacdac;
+  font-size: small;
+}
+.share-well .btn.active {
+  background-color: #b4ccb9;
 }
 .input .input-overflown {
   border-color: #ee7a85;

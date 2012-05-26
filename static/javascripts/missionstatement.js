@@ -21,6 +21,17 @@ $(document).ready( function() {
     
     $('.alert').delay(3000).fadeOut('slow');
     
+    var private_link = $('#private_link > a').attr('href');
+    $('#private_link > a').attr('href', 'http://' + window.location.host + '/' + private_link);
+    $('#private_link > a').html('http://' + window.location.host + private_link);
+    
+    var public_link = $('#public_link > a').attr('href');
+    $('#public_link > a').attr('href', 'http://' + window.location.host + '/' + public_link);
+    $('#public_link > a').html('http://' + window.location.host + public_link);
+    
+    $('#private').addClass('active');
+    $('#private_link').css({'display' : 'block'});
+    
     setInterval(function() {
         var kvs = {};
         var size = 0;
@@ -67,6 +78,23 @@ $(document).ready( function() {
         });
         
     }, 5000);
+    
+    $('#private').click(function() {
+        event.preventDefault();
+        $(this).addClass('active');
+        $('#private_link').css({'display' : 'block'});
+        $('#public').removeClass('active');
+        $('#public_link').css({'display' : 'none'});
+    });
+    
+    $('#public').click(function() {
+        event.preventDefault();
+        $(this).addClass('active');
+        $('#public_link').css({'display' : 'block'});
+        $('#private').removeClass('active');
+        $('#private_link').css({'display' : 'none'});
+       
+    });
     
     $('#title').keyup(function() {
         var title = $(this).val().substring(0,17);

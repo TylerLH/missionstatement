@@ -84,6 +84,18 @@ footer {
     font-weight: bold;
 }
 
+.btn-group {
+}
+
+.action {
+    font-family: 'Patua One', cursive;
+}
+
+.btn-group::before, .btn-group::after {
+    display: block;
+    content: none !important; 
+}
+
 #form_status {
     position: absolute; 
     left: -260px;
@@ -101,6 +113,7 @@ footer {
 .sendto {
     width: 200px;
     margin-right: 5px;
+    font-size: medium;
 }
 
 .hidden {
@@ -114,6 +127,20 @@ footer {
 .container-fluid > .span6 {
     margin-left: 10px;
 }
+
+.share-well {
+    padding-left: 80px;
+    padding-right: 77px;
+    padding-bottom: 15px;
+    margin-left: 180px;
+    background-color: darken(@vintage-paper, 10%);
+    font-size: small;
+    
+    .btn.active {
+        background-color: @vintage-sky;
+    }
+}
+
 .input {
     .input-overflown {
         border-color: lighten(@vintage-pink, 10%);
@@ -123,20 +150,15 @@ footer {
         }
     }
     
-    
-    
     label {
         font-family: 'Patua One', cursive;
         color: @vintage-blue;
     }
     
-
     
     .help-overflown {
         color: @vintage-pink;
     }
-    
-    
 }
 
 a {
