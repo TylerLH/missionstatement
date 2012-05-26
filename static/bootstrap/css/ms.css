@@ -4168,7 +4168,25 @@ footer {
 .help-inline {
   vertical-align: top;
   font-size: small;
+}
+.btn.disabled {
+  opacity: 1.00;
+}
+.units-left {
   font-weight: bold;
+}
+#form_status {
+  position: absolute;
+  left: -260px;
+  top: 0px;
+  width: 250px;
+  vertical-align: top;
+  text-align: right;
+  font-size: small;
+  color: #eae2cf;
+  font-style: italic;
+  line-height: 100%;
+  margin-top: 10px;
 }
 .sendto {
   width: 200px;
@@ -4179,6 +4197,9 @@ footer {
 }
 .btn-toolbar > .span7 {
   margin-left: 0px;
+}
+.container-fluid > .span6 {
+  margin-left: 10px;
 }
 .input .input-overflown {
   border-color: #ee7a85;
