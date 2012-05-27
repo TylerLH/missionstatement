@@ -24,7 +24,6 @@ app.permanent_session_lifetime = timedelta(days = 365)
 
 # mongo configuration
 if os.environ.get('MONGOHQ_URL'):
-    app.debug = False
     app.config.update(MONGODB_HOST = os.environ.get('MONGOHQ_URL'),
                       MONGODB_DATABASE = 'app4005374')
 
