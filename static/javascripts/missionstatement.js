@@ -23,11 +23,11 @@ $(document).ready( function() {
     
     var private_link = $('#private_link > a').attr('href');
     $('#private_link > a').attr('href', 'http://' + window.location.host + '/' + private_link);
-    $('#private_link > a').html('http://' + window.location.host + '/' + private_link);
+    $('#private_link > a').html(window.location.host + '/' + private_link);
     
     var public_link = $('#public_link > a').attr('href');
     $('#public_link > a').attr('href', 'http://' + window.location.host + '/' + public_link);
-    $('#public_link > a').html('http://' + window.location.host + '/' + public_link);
+    $('#public_link > a').html(window.location.host + '/' + public_link);
     
     $('#private').addClass('active');
     $('#private_link').css({'display' : 'block'});
