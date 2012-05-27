@@ -32,7 +32,7 @@ CSRF_ENABLED = True
 
 # smtp configuration
 if os.environ.get('SENDGRID_USERNAME'):
-    app.config['TESTING'] = False
+    app.config['TESTING'] = True
     
 app.config.update(
                   #EMAIL SETTINGS
