@@ -31,7 +31,7 @@ CSRF_ENABLED = True
 
 # smtp configuration
 if os.environ.get('SENDGRID_USERNAME'):
-    app.config['TESTING'] = True
+    app.config['TESTING'] = False
     
 app.config.update(
                   #EMAIL SETTINGS
@@ -185,7 +185,7 @@ def show_project(unique_url):
                           recipients=[request.form['email_addr']])
             msg.body = """Hello, %s! 
                     
-Here is a %s link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
+Here is a %s link to \"%s\" on Mission Statement (http://missionstatement.herokuapp.com). 
                           
 %s
                           
@@ -195,13 +195,15 @@ Yours Truly,
                           
 Ilya and Tyler
                           
-PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.""" % (request.form['email_addr'], 
-                                                                                               'read-write' if 'private_check' in request.form else 'read-only', 
-                                                                                               project.title, 
-                                                                                               "http://missionstatement.herokuapp.com/" + unique_url)
+PS: Let us know how we can keep Mission Statement better, or better yet send us a link to your idea.""" % \
+                    (request.form['email_addr'], 
+                     'read-write' if 'private_check' in request.form else 'read-only',
+                     project.title, 
+                     "http://missionstatement.herokuapp.com/" + unique_url)
             mail.send(msg)
                 
             app.logger.debug('Emailing...' + request.form['email_addr'])
+            app.logger.debug('Message:\n' + msg.body)
             flash('Link sent.', category='success')
         else:
             flash(get_errors(form), category='error')
