@@ -23,14 +23,26 @@ $(document).ready( function() {
     
     var private_link = $('#private_link > a').attr('href');
     $('#private_link > a').attr('href', 'http://' + window.location.host + '/' + private_link);
-    $('#private_link > a').html('http://' + window.location.host + private_link);
+    $('#private_link > a').html('http://' + window.location.host + '/' + private_link);
     
     var public_link = $('#public_link > a').attr('href');
     $('#public_link > a').attr('href', 'http://' + window.location.host + '/' + public_link);
-    $('#public_link > a').html('http://' + window.location.host + public_link);
+    $('#public_link > a').html('http://' + window.location.host + '/' + public_link);
     
     $('#private').addClass('active');
     $('#private_link').css({'display' : 'block'});
+    
+    $.each($('.navbar-inner .btn-success'), function(index, value) {
+        var parent_link = $(this).parent().attr('href');
+        var pathname = window.location.pathname; 
+        var button = $(this);
+        
+        if (pathname == parent_link) {
+            $(this).parent().replaceWith(button);
+            button.removeClass('btn-success');
+            button.addClass('disabled');
+        }
+    });
     
     setInterval(function() {
         var kvs = {};
@@ -85,6 +97,7 @@ $(document).ready( function() {
         $('#private_link').css({'display' : 'block'});
         $('#public').removeClass('active');
         $('#public_link').css({'display' : 'none'});
+        $('#private_check').attr('checked', 'checked');
     });
     
     $('#public').click(function() {
@@ -93,7 +106,7 @@ $(document).ready( function() {
         $('#public_link').css({'display' : 'block'});
         $('#private').removeClass('active');
         $('#private_link').css({'display' : 'none'});
-       
+        $('#private_check').removeAttr('checked');
     });
     
     $('#title').keyup(function() {

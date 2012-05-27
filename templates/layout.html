@@ -21,15 +21,12 @@
                     <div class="offset2 span7">
                         <div style="position:relative;">
                             <div id="form_status">
-                                <span>All updates are saved automatically.</span>                        
+                                <span>Do not worry. This page autosaves.</span>                        
                             </div>
                         <a href="/#"><button class="btn btn-mini btn-primary"><i class="icon-plus"></i> New</button></a>         
                         {% for pitch in session.pitches %}
-                            {% if pitch.url == unique_url %}
-                                <button class="btn btn-mini disabled">{{pitch.name | truncate(20, True)}}</button>
-                            {% else %}
-                                <a href="/{{pitch.url}}"><button class="btn btn-mini btn-success">{{pitch.name | truncate(20, True)}}</button></a>
-                            {% endif %}
+                            <a href="/{{pitch.url}}"><button class="btn btn-mini btn-success">{{pitch.name | truncate(20, True)}}</button></a>
+                        
                         {% endfor %}
 <!--                         <button class="btn btn-mini btn-success"><i class="icon-signin"></i> Sign in</button>    -->
                         </div>
@@ -71,7 +68,6 @@
             
        </footer>
     </div>
-
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     

@@ -121,7 +121,7 @@ def get_errors(form):
     return err
 
 class ProjectForm(Form):
-    title = TextField("Title", [required(), length(max = 50, words = False)])
+    title = TextField("Title", [required(), length(max = 40, words = False)])
     tagline = TextField("Tagline", [required(), length(max = 10)])
     tweet = TextAreaField("One Tweetful", [length(max = 140, words = False)])    
     blurb = TextAreaField("Email Blurb + Elevator Pitch", [length(max = 100)])
@@ -153,23 +153,40 @@ def favicon():
               
 @app.route('/<unique_url>', methods=["GET", "POST"])
 def show_project(unique_url):
+    if not 'pitches' in session:
+        session['pitches'] = []
+        session.permanent = True
+        
+    template = 'project.html'
     project = db.Project.find_one({'unique_url' : unique_url})
-    if not project: 
-        return render_template('404.html', update = True)
-    
-    # POST
-    if request.method == "POST" and "_email" in request.form.values():
-        form = ProjectForm(request.form)
-        if not form.email_addr.data: 
-            flash('Email missing', category='error')
+    if not project:
+        project = db.Project.find_one({'ro_url' : unique_url})
+        if not project:
+            return render_template('404.html', update = True)
+        else:
+            template = 'ro_project.html'
+    else: 
+        found = False
+        for pitch in session['pitches']:
+            if pitch['url'] == project.unique_url: 
+                found = True
                 
+        if not found:
+            session['pitches'].append({'name' : project.title, 'url' : project.unique_url})
+            session.modified = True
+            
+    # POST
+    app.logger.debug(request.form)
+    if request.method == "POST" and 'email' in request.form:
+        if not 'email_addr' in request.form: 
+            flash('Email missing', category='error')     
         elif mail: 
-            msg = Message(form.title.data + " on Mission Statement",
+            msg = Message(project.title + " on Mission Statement",
                           sender="ilya.bagrak@gmail.com",
-                          recipients=[form.email_addr.data])
+                          recipients=[request.values['email_addr']])
             msg.body = """Hello, %s! 
                     
-Here is the permanent link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
+Here is the permanent %s link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
                           
 %s
                           
@@ -179,7 +196,10 @@ Yours Truly,
                           
 Ilya and Tyler
                           
-PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.""" % (form.email_addr.data, form.title.data, "http://missionstatement.herokuapp.com/" + unique_url)
+PS: Let us know how we can keep Mission Statement better, or better yet send us a pitch.""" % (request.form['email_addr'], 
+                                                                                               'read-write' if 'private_check' in request.form else 'read-only', 
+                                                                                               project.title, 
+                                                                                               "http://missionstatement.herokuapp.com/" + unique_url)
             mail.send(msg)
                 
             app.logger.debug('Emailing...')
@@ -192,7 +212,7 @@ PS: Let us know how we can keep Mission Statement better, or better yet send us 
     # GET
     form = ProjectForm(obj=project)
     app.logger.debug(project)
-    return render_template('new_project.html', form=form, ro_url = project.ro_url, unique_url = project.unique_url, update = True)
+    return render_template(template, form=form, ro_url = project.ro_url, unique_url = project.unique_url, update = True)
 
 @app.route('/api/v1/pitch/<unique_url>', methods=["POST"])
 def update_project(unique_url):
