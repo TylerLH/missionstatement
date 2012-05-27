@@ -180,6 +180,13 @@ def show_project(unique_url):
         if not 'email_addr' in request.form: 
             flash('Email missing', category='error')     
         elif mail: 
+            if 'private_check' in request.form:
+                link = "http://missionstatement.herokuapp.com/" + unique_url
+                link_type = 'read-write'
+            else:
+                link = "http://missionstatement.herokuapp.com/" + project.ro_url
+                link_type = 'read-only'
+                
             msg = Message(project.title + " on Mission Statement",
                           sender="ilya.bagrak@gmail.com",
                           recipients=[request.form['email_addr']])
@@ -197,9 +204,9 @@ Ilya and Tyler
                           
 PS: Let us know how we can keep Mission Statement better, or better yet send us a link to your idea.""" % \
                     (request.form['email_addr'], 
-                     'read-write' if 'private_check' in request.form else 'read-only',
+                     link_type,
                      project.title, 
-                     "http://missionstatement.herokuapp.com/" + unique_url)
+                     link)
             mail.send(msg)
                 
             app.logger.debug('Emailing...' + request.form['email_addr'])
