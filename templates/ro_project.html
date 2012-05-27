@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block content %}
+    <form class="offset2" method="POST" >
+        
+          <div class="input">
+             {{ form.title.label }} {{ form.title(disabled="disabled",size=10,class="disabled span7 word_limited",autocomplete="off")}}       
+          </div>
+          <div class="input">
+            {{ form.tagline.label}} {{ form.tagline(disabled="disabled",size=10,class="disabled span7 word_limited",autocomplete="off")}}
+          </div>
+          <div class="input">
+            {{ form.tweet.label}} {{ form.tweet(disabled="disabled",size=140,class="disabled span7 autoresize char_limited",autocomplete="off")}}
+          </div>
+          <div class="input">
+            {{ form.blurb.label}} {{ form.blurb(disabled="disabled",size=100,class="disabled span7 autoresize word_limited",autocomplete="off")}}
+          </div>
+    </form>
+{% endblock %}
