@@ -183,7 +183,7 @@ def show_project(unique_url):
         elif mail: 
             msg = Message(project.title + " on Mission Statement",
                           sender="ilya.bagrak@gmail.com",
-                          recipients=[request.values['email_addr']])
+                          recipients=[request.form['email_addr']])
             msg.body = """Hello, %s! 
                     
 Here is the permanent %s link to your \"%s\" pitch on Mission Statement (http://missionstatement.herokuapp.com). 
