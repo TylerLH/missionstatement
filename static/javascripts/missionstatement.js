@@ -11,7 +11,7 @@ const UNKNOWN_FIELD = 4
 
 $(window).load(function() {
     var x = $('.navbar-fixed-top-plus').offset().top + $('.navbar-fixed-top-plus').outerHeight();
-    $('body').css('padding-top', x + 10 + 'px');
+    $('body').css('padding-top', x + 9 + 'px');
 });
 
 $(document).ready( function() {
@@ -121,7 +121,7 @@ $(document).ready( function() {
         
         // move down the body if we have to
         var x = $('.navbar-fixed-top-plus').offset().top + $('.navbar-fixed-top-plus').outerHeight();
-        $('body').css('padding-top', x + 10 + 'px');
+        $('body').css('padding-top', x + 9 + 'px');
     });
     
     $('.word_limited, .char_limited').keyup(function() {

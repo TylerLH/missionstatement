@@ -4185,7 +4185,8 @@ footer {
 }
 #form_status {
   position: absolute;
-  left: -260px;
+  left: -190px;
+  max-width: 180px;
   top: 0px;
   width: 250px;
   vertical-align: top;
