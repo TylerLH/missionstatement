@@ -63,13 +63,13 @@
     </form>  
     <form id="share-well" class="well span5 form-inline" method="POST">
         <div class="btn-group">
-            <button id="private" class="btn btn-small"><i class="icon-white icon-lock"></i></button>
-            <button style="margin-right: 5px;" id="public" class="btn btn-small"><i class="icon-white icon-share"></i></button>
+            <button id="private" class="btn"><i class="icon-lock"></i></button>
+            <button style="margin-right: 5px;" id="public" class="btn"><i class="icon-share"></i></button>
         </div>
         
         <input style="display:none" type="checkbox" id="private_check" name="private_check" value="private" checked="checked"/>
         {{ form.email_addr(placeholder="me@example.com",class="sendto", type="email")}}
-        <button name="email" value="_email" type="submit" class="send-project btn btn-small btn-success"><i class="icon-white icon-envelope"></i> Email</button>
+        <button name="email" value="_email" type="submit" class="send-project btn btn-success"><i class="icon-white icon-envelope"></i> Email</button>
         <div style="display: none" id="private_link"> Read-write link: <a href="{{unique_url}}">{{unique_url}}</a></div>
         <div style="display: none" id="public_link"> Read-only link: <a href="{{ro_url}}">{{ro_url}}</a></div>
        

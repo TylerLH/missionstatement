@@ -144,12 +144,16 @@ footer {
     
     input {
         border-radius: 4px; 
+        height: 22px;
     }
     
-    .btn-success {
-        padding: 4px 8px;
-        border-radius: 4px;
+    .btn {
+        padding: 6px 8px 6px 8px;
     }
+}
+
+#public_link, #private_link {
+    padding-top: 5px;
 }
 
 .input {
@@ -172,6 +176,7 @@ footer {
     
     label {
         font-family: 'Patua One', cursive;
+        font-size: 18px;
         color: @vintage-blue;
     }
     
@@ -217,7 +222,7 @@ input, textarea {
         padding-top: 20px;
     
         .lead {
-            margin-bottom: 5px;
+            margin-bottom: 10px !important;
             color: @vintage-black;
         }
     }
@@ -233,19 +238,13 @@ input, textarea {
         #gradient > .vertical(lighten(@vintage-blue, 10%), lighten(@vintage-blue, 0%));
         
         .btn {
-            margin-top: 10px;
-            margin-bottom: 8px;
+            padding: 4px 8px;
+            margin: 10px 4px 8px 0px;
             font-size: small;
         }
         
         .nav-pills {
             margin-left: -5px;
-        }
-        
-        .btn {
-            margin-top: 10px;
-            margin-bottom: 8px;
-            font-size: small;
         }
     }
 }

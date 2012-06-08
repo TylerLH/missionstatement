@@ -135,6 +135,12 @@ def home():
     if not 'pitches' in session:
         session['pitches'] = []
         session.permanent = True
+        
+    # see if there is already an empty pitch in session
+    for pitch in session['pitches']:
+        project = db.Project.find_one({'unique_url' : pitch['url']})
+        if project and project.title == u'*' and project.tagline == u'':
+            return redirect(url_for('show_project', unique_url = project.unique_url))
             
     project = db.Project()
     project.unique_url = create_url()
